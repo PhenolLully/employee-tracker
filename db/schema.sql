@@ -1,12 +1,11 @@
 DROP DATABASE IF EXISTS tracker_db
-
 CREATE DATABASE tracker_db
 
 USE tracker_db;
 
 CREATE TABLE department (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  department VARCHAR(100) NOT NULL
+  department_name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE role (
@@ -25,5 +24,11 @@ CREATE TABLE employee (
   last_name VARCHAR(30),
   role_id INT NOT NULL,
   manager_id INT
+  FOREIGN KEY (role_id)
+  REFERENCES role(id)
+  ON DELETE SET NULL,
+  FOREIGN KEY (manager_id)
+  REFERENCES employee(id)
+  ON DELETE SET NULL
 );
 
