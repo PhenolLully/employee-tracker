@@ -1,14 +1,33 @@
 const inquirer = require("inquirer");
+const express = require("express");
+const mysql = require('mysql');
+const PORT = process.env.PORT || 3001;
+const fs = require("fs");
+const app = express();
 
-const db = mysql.createConnection(
-    {
-      host: 'localhost',
-      user: 'root',
-      password: 'root',
-      database: 'tracker_db'
-    },
-    console.log(`Connected to the tracker_db database.`)
-  );
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+const db = mysql.createConnection({
+  host: "127.0.0.1",
+  dialect: 'mysql',
+  port: 8889,
+  dialectOptions: {
+  decimalNumbers: true,
+      },
+  user: 'root',
+  password: 'root',
+  database: 'tracker_db',
+});
+
+app.listen(PORT, () => {
+db.connect((err) => {
+  if (err) {
+    throw err;
+  }
+  console.log('Connected to the tracker_db database.');
+});
+});
 
   async function promptManager(){
     const questions = await inquirer.prompt({
@@ -116,8 +135,4 @@ const db = mysql.createConnection(
         
     }
 }
-db.connect(function(err) {
-    if (err) throw err;
-    promptManager();
-    console.log("Connected!");
-});
+
