@@ -114,7 +114,7 @@ db.connect((err) => {
 
     }
      if (questions.menu === "View all departments") {
-        db.query("SELECT * FROM departments", function (err, result) {
+        db.query("SELECT * FROM department", function (err, result) {
             if (err) throw err;
             console.table(result);
             promptManager();
@@ -126,7 +126,7 @@ db.connect((err) => {
            name: "newDepartment",
            message: "What is the name of the department?"
        })
-         db.query("INSERT INTO department (department_name)?", {name: answers.newDepartment}, function (err, result) {
+         db.query("INSERT INTO department (department_name) VALUES (?)", answers.newDepartment, function (err, result) {
               if (err) throw err;
               console.log("Department added");
               promptManager();
@@ -135,4 +135,5 @@ db.connect((err) => {
         
     }
 }
+promptManager();
 
